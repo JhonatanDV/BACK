@@ -20,7 +20,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 const pool = new Pool({
-  user: 'postgres', 
+  user: 'aad_postgresql_b4134', 
   host: 'yamahainventario.postgres.database.azure.com', 
   database: 'tienda_productos', 
   password: 'Sofilau01@',
