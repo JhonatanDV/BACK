@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { Pool } = require('pg'); // Usamos Pool de pg
+const { Pool } = require('pg');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,15 +19,19 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-// Configuración de la conexión a la base de datos
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Utiliza una variable de entorno para la URL de conexión
+  user: 'postgres', 
+  host: 'yamahainventario.postgres.database.azure.com', 
+  database: 'tienda_productos', 
+  password: 'Sofilau01@',
+  port: 5432, 
   ssl: {
-    rejectUnauthorized: false
+    rejectUnauthorized: false, // Deshabilitar la verificación del certificado SSL
+    require: true, // Configurar SSL como requerido
+    sslmode: 'require' // Establecer el modo SSL como requerido
   }
 });
 
-// Rutas para manipular productos
 app.get('/api/productos', async (req, res) => {
   try {
     const results = await pool.query('SELECT * FROM productos');
