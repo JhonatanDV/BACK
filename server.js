@@ -4,14 +4,24 @@ const cors = require('cors');
 const mysql = require('mysql2');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(cors());
+const allowedOrigins = ['https://wonderful-bush-012646010.5.azurestaticapps.net']; // Reemplaza con la URL de tu frontend
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 app.use(bodyParser.json());
 
 // Create a connection to the database
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'localhost', // Reemplaza con tu configuración de host si es necesario
   user: 'root', 
   password: 'Sofilau01@', 
   database: 'mydatabase' 
